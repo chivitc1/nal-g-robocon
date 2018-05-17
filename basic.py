@@ -1,5 +1,4 @@
 import requests
-from time import sleep
 import json
 
 host = "http://10.22.40.101:8081"
@@ -63,6 +62,3 @@ def changeSpeedLeft(value):
 	payload = {'speed': value}
 	url = host + "/remote/change_spd_left"
 	requests.post(url, data = json.dumps(payload), headers = headers)
-
-def wait(time):
-	sleep(time)

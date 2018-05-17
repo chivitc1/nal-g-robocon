@@ -1,10 +1,17 @@
 from basic import *
+from time import sleep
 import sys
 import math
 
 """Configure speed"""
 def configureSpeed(speed):
 	changeSpeed(speed)
+
+def stop():
+	pause()
+
+def wait(ms):
+	sleep(0.001 * time)
 
 """Detect color in single step"""
 def stepDetectColor():
@@ -27,11 +34,11 @@ def stepDetectColor():
 """Detect color within specific timebbound in second"""
 def detectColor(time):
 	total = {"red": 0, "green": 0, "blue": 0, "white": 0, "undetected": 0}
-	count = time / 0.005
-	for i in range (0..count):
+	count = time / 5
+	for i in range(0, count):
 		color = stepDetectColor()
 		total[color] = total[color] + 1
-		wait(0.005)
+		wait(5)
 	color = "undetected"
 	if total["green"] > total[color]:
 		color = "green"
@@ -49,6 +56,14 @@ def stepRotate(isLeft):
 		turnLeft()
 	else:
 		print("Step rotate: right\n")
+		turnRight()
+
+def rotate(isLeft):
+	if isLeft:
+		print("Rotate: left\n")
+		turnLeft()
+	else:
+		print("Rotate: right\n")
 		turnRight()
 
 """Calculate current degree, resolve difference"""
@@ -99,23 +114,38 @@ def rotateNearest(degree):
 				hangCount = hangCount + 1
 			if hangCount > 10:
 				print("Is hang")
-				wait(0.5)
+				wait(500)
 				# resetCompass()
 				hangCount = 0
 			else:
-				wait(0.1)
+				wait(100)
 			lastDegree = currentDegree
 			pause()
 		else:
 			break
 
-def stepDetectDistance():
+def stepDetectObstacle(length):
 	distance = getDistance()
-	if distance < 30:
+	if distance < length:
 		return True
 	else:
 		return False
 
-def stepForward():
+def detectObstacle(time, length):
+	total = 0
+	count = time / 5
+	for i in range(0, count):
+		if stepDetectObstacle(length)
+			total = total + 1
+		wait(5)
+	return total > count/2
+
+def keepDistance(length):
+	shouldPause = stepDetectObstacle(length):
+	if shouldPause:
+		pause()
+	return shouldPause
+
+def forward():
 	print("Step go: forward\n")
 	goForward()
