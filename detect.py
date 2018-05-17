@@ -11,7 +11,7 @@ def stop():
 	pause()
 
 def wait(ms):
-	sleep(0.001 * time)
+	sleep(0.001 * ms)
 
 """Detect color in single step"""
 def stepDetectColor():
@@ -19,7 +19,7 @@ def stepDetectColor():
 	red = colors["red"]
 	green = colors["green"]
 	blue = colors["blue"]
-	print("Step color: " + str(colors) + "\n")
+	# print("Step color: " + str(colors) + "\n")
 	color = "undetected"
 	if blue > 4800 and (red + green) < 10000:
 		color = "blue"
@@ -34,11 +34,11 @@ def stepDetectColor():
 """Detect color within specific timebbound in second"""
 def detectColor(time):
 	total = {"red": 0, "green": 0, "blue": 0, "white": 0, "undetected": 0}
-	count = time / 50
+	count = time / 10
 	for i in range(0, count):
 		color = stepDetectColor()
 		total[color] = total[color] + 1
-		wait(50)
+		wait(10)
 	color = "undetected"
 	if total["green"] > total[color]:
 		color = "green"
@@ -89,6 +89,18 @@ def calCurrentDegree():
 		currentDegree = currentDegree + 10
 
 	return currentDegree
+
+def detectDegree(ms):
+	resetCompass()
+	count = ms / 30
+	totalDegree = 0
+	for i in range(0, count):
+		totalDegree += getCompass()["degree"]
+		wait(30)
+	currentDegree = totalDegree / count
+	print("Current degree " + str(currentDegree))
+	return currentDegree
+
 
 """Calculate different between 2 degrees, return smallest angle(<180)"""
 def calSmallestDegree(degree1, degree2):
@@ -144,7 +156,9 @@ def detectObstacle(time, length):
 		if stepDetectObstacle(length):
 			total = total + 1
 		wait(50)
-	return total > count/2
+	hasObstacle = total > count/2
+	print("Does encounter obstacle: " + str(hasObstacle) + "\n")
+	return hasObstacle
 
 def keepDistance(length):
 	shouldPause = stepDetectObstacle(length)

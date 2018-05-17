@@ -2,6 +2,7 @@ import requests
 import json
 
 host = "http://10.22.40.101:8081"
+host = "http://10.22.20.59:8080"
 headers = {'Content-Type':'application/json'}
 
 def turnLeft():

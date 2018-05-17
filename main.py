@@ -128,4 +128,5 @@ if __name__ == "__main__":
 	# configureSpeed(30)
 	# test(90, 20)
 	# 
-	detectColor(100)
+	while True:
+		detectObstacle(100, 15)
