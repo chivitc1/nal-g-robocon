@@ -2,12 +2,17 @@ from basic import *
 import sys
 import math
 
-def detectColor():
+"""Configure speed"""
+def configureSpeed(speed):
+	changeSpeed(speed)
+
+"""Detect color in single step"""
+def stepDetectColor():
 	colors = getColor()
 	red = colors["red"]
 	green = colors["green"]
 	blue = colors["blue"]
-	print(str(colors) + "\n")
+	print("Step color: " + str(colors) + "\n")
 	color = "undetected"
 	if blue > 4800 and (red + green) < 10000:
 		color = "blue"
@@ -19,19 +24,34 @@ def detectColor():
 		color = "white"
 	return color
 
-def detectColor2():
-	while True:
-		print("detect color is: " + detectColor() + "\n")
-		wait(1)
+"""Detect color within specific timebbound in second"""
+def detectColor(time):
+	total = {"red": 0, "green": 0, "blue": 0, "white": 0, "undetected": 0}
+	count = time / 0.005
+	for i in range (0..count):
+		color = stepDetectColor()
+		total[color] = total[color] + 1
+		wait(0.005)
+	color = "undetected"
+	if total["green"] > total[color]:
+		color = "green"
+	if total["blue"] > total[color]:
+		color = "blue"
+	if total["red"] > total[color]:
+		color = "red"
+	print("Detect color " + color + " with count " + str(total[color]) + "\n")
+	return color
 
+"""Rotate in single step"""
 def stepRotate(isLeft):
 	if isLeft:
-		print("Rotate left\n")
+		print("Step rotate: left\n")
 		turnLeft()
 	else:
-		print("Rotate right\n")
+		print("Step rotate: right\n")
 		turnRight()
 
+"""Calculate current degree, resolve difference"""
 def calCurrentDegree():
 	currentDegree = getCompass()["degree"]
 	# baseDegree = 270
@@ -48,35 +68,16 @@ def calCurrentDegree():
 		currentDegree = currentDegree + 10
 
 	return currentDegree
-	
 
-def calDelta(a, b):
-	return (a - b) % 360
+"""Calculate different between 2 degrees, return smallest angle(<180)"""
+def calSmallestDegree(degree1, degree2):
+	delta = math.fabs(degree1 - degree2)
+	if delta > 180:
+		delta = delta - 180
+	return delta
 
-def checkShouldTurn(degree, dd): 
-	currentDegree = calCurrentDegree()
-	if calDelta(degree, currentDegree) > dd:
-		return "left"
-	elif calDelta(degree, currentDegree) < - dd:
-		return "right"
-	else:
-		return None
-
-def rotate(isLeft, degree):
-	# changeSpeed(10)
-	delta = 5
-	while True:
-		currentDegree = calCurrentDegree()
-		if calDelta(degree, currentDegree) > delta:
-			stepRotate(True)
-		elif calDelta(degree, currentDegree) < - delta:
-			stepRotate(False)
-		else:
-			break
-		wait(0.09)
-
+"""Try rotating base on smallest right"""
 def rotateNearest(degree):
-	# changeSpeed(10)
 	delta = 10
 	lastDegree = 0
 	hangCount = 0
@@ -108,53 +109,13 @@ def rotateNearest(degree):
 		else:
 			break
 
-def checkChangeState():
+def stepDetectDistance():
 	distance = getDistance()
 	if distance < 30:
 		return True
 	else:
 		return False
 
-def stepGo():
-	print("Go\n")
+def stepForward():
+	print("Step go: forward\n")
 	goForward()
-
-def run():
-	while True:
-		rotateNearest(degree)
-		stepGo()
-		wait(0.01)
-	pause()
-
-states = [
-	{"action": {"step": "forward", "degree": 270}, "stop": {"distance": 15}},
-	{"action": {"step": "forward", "degree": 0}, "stop": {"distance": 15}},
-	{"action": {"step": "rotate", "count": 2}, "stop": {"degree": 270}},
-	{"action": {"step": "forward", "degree": 0}, "stop": {"time": 2}},
-	{"action": {"step": "forward", "degree": 90}, "stop": {"distance": 15}},
-	{"action": {"step": "forward", "degree": 0}, "stop": {"distance": 45}},
-	{"action": {"step": "rotate", "count": 2}, "stop": {"degree": 0}},
-	{"action": {"step": "backward", "degree": 0}, "stop": {"distance": 70}},
-	{"action": {"step": "rotate", "count": 1}, "stop": {"degree": 270}},
-	{"action": {"step": "rotate", "count": 1}, "stop": {"degree": 270}},
-]
-
-states = [
-	{"action": {"step": "forward", "degree": 270}, "stop": {"distance": 15}},
-	{"action": {"step": "forward", "degree": 0}, "stop": {"distance": 15}},
-	{"action": {"step": "rotate", "count": 2}, "stop": {"degree": 270}},
-	{"action": {"step": "forward", "degree": 0}, "stop": {"time": 2}},
-	{"action": {"step": "forward", "degree": 90}, "stop": {"distance": 15}},
-	{"action": {"step": "forward", "degree": 0}, "stop": {"distance": 45}},
-	{"action": {"step": "rotate", "count": 2}, "stop": {"degree": 0}},
-	{"action": {"step": "backward", "degree": 0}, "stop": {"distance": 70}},
-	{"action": {"step": "rotate", "count": 1}, "stop": {"degree": 270}},
-	{"action": {"step": "rotate", "count": 1}, "stop": {"degree": 270}},
-]
-
-if __name__ == "__main__":
-	command = sys.argv
-	changeSpeed(30)
-	# detectColor2()
-	# rotate(True, 0)
-	run()
