@@ -16,21 +16,23 @@ states = [
 	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
 ]
 
+dd = 21
+
 states = [
 	{"action": {"type": "wait", "param": 0}, "stop": {"type": "color", "param": "green"}},
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": dd}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": dd}},
 	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": dd}},
 
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
-	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": 20}},
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": dd}},
+	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": dd}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": dd}},
 
-	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": dd}},
 	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
 
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": dd}},
 	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
 ]
 
@@ -71,8 +73,9 @@ def shouldChangeObstacle(param):
 		return False
 
 def shouldStop(param):
-	if detectColor(500) == param:
-		print("Stop when encounter color " + param)
+	print("Check should stop color " + param + "\n")
+	if detectColor(100) == param:
+		print("Stop when encounter color " + param + "\n")
 		return True
 	else:
 		return False
@@ -122,7 +125,7 @@ def test(degree, length):
 
 if __name__ == "__main__":
 	command = sys.argv
-	# configureSpeed(30)
+	configureSpeed(30)
 	run()
 
 	# test(270, 20)

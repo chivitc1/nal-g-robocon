@@ -67,9 +67,9 @@ def rotate(isLeft):
 		else:
 			turnRight()
 		if hangDetector.isHangOn():
-			wait(300)
+			wait(500)
 		else:
-			wait(100)
+			wait(300)
 		stop()
 		hangDetector.feedCurrent(calCurrentDegree())
 
