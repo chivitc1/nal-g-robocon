@@ -1,4 +1,5 @@
 from basic import *
+from utils import *
 from time import sleep
 import sys
 import math
@@ -34,11 +35,11 @@ def stepDetectColor():
 """Detect color within specific timebbound in second"""
 def detectColor(time):
 	total = {"red": 0, "green": 0, "blue": 0, "white": 0, "undetected": 0}
-	count = time / 10
+	count = time / 30
 	for i in range(0, count):
 		color = stepDetectColor()
 		total[color] = total[color] + 1
-		wait(10)
+		wait(30)
 	color = "undetected"
 	if total["green"] > total[color]:
 		color = "green"
@@ -169,3 +170,7 @@ def keepDistance(length):
 def forward():
 	print("Step go: forward\n")
 	goForward()
+
+def backward():
+	print("Step go: backward\n")
+	goBackward()

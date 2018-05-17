@@ -3,40 +3,34 @@ from utils import *
 from collections import deque
 
 states = [
-	{"action": {"step": "wait"}, "stop": {"color": "green"}},
-	{"action": {"step": "forward", "degree": 270}, "stop": {"distance": 15}},
-	{"action": {"step": "forward", "degree": 0}, "stop": {"distance": 15}},
-	{"action": {"step": "rotate", "count": 2}, "stop": {"degree": 270}},
+	{"action": {"type": "wait", "param": 0}, "stop": {"type": "color", "param": "green"}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
 
-	{"action": {"step": "forward", "degree": 0}, "stop": {"distance": 15}},
-
-
-	{"action": {"type": "forward", "degree": 90}, "stop": {"distance": 15}},
-	{"action": {"type": "rotate", "count": 2}, "stop": {"degree": 180}},
-
-	{"action": {"type": "forward", "degree": 90}, "stop": {"distance": 15}},
-	{"action": {"type": "rotate", "count": 2}, "stop": {"degree": 180}},
-
-	{"action": {"type": "forward", "degree": 180}, "stop": {"distance": 15}},
-	{"action": {"type": "forward", "degree": 270}, "stop": {"distance": 15}},
-	{"action": {"type": "forward", "degree": 180}, "stop": {"distance": 15}},
-
-
-	{"action": {"type": "forward", "degree": 270}, "stop": {"distance": 15}},
-	{"action": {"type": "forward", "degree": 0}, "stop": {"distance": 15}},
-	{"action": {"type": "rotate", "count": 2}, "stop": {"degree": 270}},
-
-	{"action": {"type": "forward", "degree": 0}, "stop": {"distance": 15}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
 ]
 
 states = [
 	{"action": {"type": "wait", "param": 0}, "stop": {"type": "color", "param": "green"}},
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 15}},
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 15}},
-	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 2}},
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 15}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
 
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 15}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
+
+	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": 20}},
+	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
+
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
 	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
 ]
 
@@ -54,6 +48,7 @@ def doActionStop():
 	pass
 
 def doAction(action, param):
+	print("Do action " + action + " with param " + str(param))
 	if action == "wait":
 		doActionWait()
 	elif action == "forward":
@@ -77,6 +72,7 @@ def shouldChangeObstacle(param):
 
 def shouldStop(param):
 	if detectColor(500) == param:
+		print("Stop when encounter color " + param)
 		return True
 	else:
 		return False
@@ -104,14 +100,15 @@ def shouldChangeState(cond, param):
 
 def run():
 	stateQueue = deque(states)
-	state = stateQueue.popLeft()
+	state = stateQueue.popleft()
 	while len(stateQueue) > 0:
+		resetCompass()
 		doAction(state["action"]["type"], state["action"]["param"])
 		wait(10)
 		shouldChange = shouldChangeState(state["stop"]["type"], state["stop"]["param"])
 		if shouldChange:
 			stop()
-			state = stateQueue.popLeft()
+			state = stateQueue.popleft()
 	stop()
 
 def test(degree, length):
@@ -126,7 +123,10 @@ def test(degree, length):
 if __name__ == "__main__":
 	command = sys.argv
 	# configureSpeed(30)
-	# test(90, 20)
-	# 
-	while True:
-		detectObstacle(100, 15)
+	run()
+
+	# test(270, 20)
+
+
+	# while True:
+	# 	detectObstacle(100, 15)
