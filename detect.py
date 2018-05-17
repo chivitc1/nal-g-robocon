@@ -34,11 +34,11 @@ def stepDetectColor():
 """Detect color within specific timebbound in second"""
 def detectColor(time):
 	total = {"red": 0, "green": 0, "blue": 0, "white": 0, "undetected": 0}
-	count = time / 5
+	count = time / 50
 	for i in range(0, count):
 		color = stepDetectColor()
 		total[color] = total[color] + 1
-		wait(5)
+		wait(50)
 	color = "undetected"
 	if total["green"] > total[color]:
 		color = "green"
@@ -59,12 +59,18 @@ def stepRotate(isLeft):
 		turnRight()
 
 def rotate(isLeft):
-	if isLeft:
-		print("Rotate: left\n")
-		turnLeft()
-	else:
-		print("Rotate: right\n")
-		turnRight()
+	hangDetector = RotateHangDetector(calCurrentDegree())
+	while not hangDetector.isRotated():
+		if isLeft:
+			turnLeft()
+		else:
+			turnRight()
+		if hangDetector.isHangOn():
+			wait(300)
+		else:
+			wait(100)
+		stop()
+		hangDetector.feedCurrent(calCurrentDegree())
 
 """Calculate current degree, resolve difference"""
 def calCurrentDegree():
@@ -133,11 +139,11 @@ def stepDetectObstacle(length):
 
 def detectObstacle(time, length):
 	total = 0
-	count = time / 5
+	count = time / 50
 	for i in range(0, count):
 		if stepDetectObstacle(length):
 			total = total + 1
-		wait(5)
+		wait(50)
 	return total > count/2
 
 def keepDistance(length):

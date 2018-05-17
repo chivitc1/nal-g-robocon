@@ -1,4 +1,5 @@
 from detect import *
+from utils import *
 from collections import deque
 
 states = [
@@ -80,23 +81,12 @@ def shouldStop(param):
 	else:
 		return False
 
-totalCount = -1
-pos = "first"
+countDetector = RotateCountDetector()
 def shouldChangeRotate(param):
-	curDegree = calCurrentDegree()
-	delta = calSmallestDegree(curDegree, 0)
-	if delta <= 5:
-		if pos != "first":
-			totalCount = totalCount + 1
-			pos = "first"
-
-	delta = calSmallestDegree(curDegree, 180)
-	if delta <= 5:
-		if pos != "second":
-			pos = "second"
-
-	if totalCount >= param:
-		totalCount = 0
+	global countDetector
+	countDetector.feedCurrent(calCurrentDegree())
+	if countDetector.getRotatedCount() >= param:
+		countDetector = RotateCountDetector()
 		return True
 	else:
 		return False
