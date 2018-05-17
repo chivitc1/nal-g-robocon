@@ -32,9 +32,11 @@ states = [
 	{"action": {"type": "wait", "param": 0}, "stop": {"type": "color", "param": "green"}},
 	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 15}},
 	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 15}},
-	{"action": {"type": "rotate", "param": "left"}, "stop": {"type": "count", "param": 2}},
+	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 2}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 15}},
 
 	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 15}},
+	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
 ]
 
 def doActionWait():
@@ -44,44 +46,59 @@ def doActionForward(degree):
 	rotateNearest(degree)
 	forward()
 
-totalCount = 0
-prev = 0
 def doActionRotate(direction):
 	rotate(direction)
+
+def doActionStop():
+	pass
 
 def doAction(action, param):
 	if action == "wait":
 		doActionWait()
-	elif action == "forward"
+	elif action == "forward":
 		doActionForward(param)
 	elif action == "rotate":
 		doActionRotate(param)
+	elif action == "stop":
+		doActionStop()
 
 def shouldChangeColor(param):
 	if detectColor(100) == param:
 		return True
-	else
+	else:
 		return False
 
 def shouldChangeObstacle(param):
 	if detectObstacle(100, param):
 		return True
-	else
+	else:
 		return False
 
+def shouldStop(param):
+	if detectColor(500) == param:
+		return True
+	else:
+		return False
+
+totalCount = -1
+pos = "first"
 def shouldChangeRotate(param):
 	curDegree = calCurrentDegree()
-	delta = calSmallestDegree(curDegree, prev)
-	# FIXME: calculate correct
-	if delta < 5:
-		totalCount = totalCount + 1
-		prev = calSmallestDegree(180, prev)
+	delta = calSmallestDegree(curDegree, 0)
+	if delta <= 5:
+		if pos != "first":
+			totalCount = totalCount + 1
+			pos = "first"
+
+	delta = calSmallestDegree(curDegree, 180)
+	if delta <= 5:
+		if pos != "second":
+			pos = "second"
 
 	if totalCount >= param:
 		totalCount = 0
-		prev = 0
 		return True
-	else
+	else:
 		return False
 
 def shouldChangeState(cond, param):
@@ -91,6 +108,8 @@ def shouldChangeState(cond, param):
 		return shouldChangeObstacle(param)
 	elif cond == "count":
 		return shouldChangeRotate(param)
+	elif cond == "stop":
+		return shouldStop(param)
 	return False
 
 def run():
@@ -116,5 +135,7 @@ def test(degree, length):
 
 if __name__ == "__main__":
 	command = sys.argv
-	configureSpeed(30)
-	test(90, 20)
+	# configureSpeed(30)
+	# test(90, 20)
+	# 
+	detectColor(100)

@@ -87,7 +87,7 @@ def calCurrentDegree():
 """Calculate different between 2 degrees, return smallest angle(<180)"""
 def calSmallestDegree(degree1, degree2):
 	delta = math.fabs(degree1 - degree2)
-	if delta > 180:
+	if delta >= 180:
 		delta = delta - 180
 	return delta
 
@@ -113,7 +113,7 @@ def rotateNearest(degree):
 			if currentDegree - lastDegree < 5:
 				hangCount = hangCount + 1
 			if hangCount > 10:
-				print("Is hang")
+				print("Is hang\n")
 				wait(500)
 				# resetCompass()
 				hangCount = 0
@@ -135,13 +135,13 @@ def detectObstacle(time, length):
 	total = 0
 	count = time / 5
 	for i in range(0, count):
-		if stepDetectObstacle(length)
+		if stepDetectObstacle(length):
 			total = total + 1
 		wait(5)
 	return total > count/2
 
 def keepDistance(length):
-	shouldPause = stepDetectObstacle(length):
+	shouldPause = stepDetectObstacle(length)
 	if shouldPause:
 		pause()
 	return shouldPause
