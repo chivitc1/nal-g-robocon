@@ -16,23 +16,23 @@ states = [
 	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
 ]
 
-dd = 21
+maxStopDistance = 21
 
 states = [
 	{"action": {"type": "wait", "param": 0}, "stop": {"type": "color", "param": "green"}},
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": dd}},
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": dd}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": maxStopDistance}},
 	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": dd}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
 
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": dd}},
-	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": dd}},
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": dd}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": maxStopDistance}},
 
-	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": dd}},
+	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": maxStopDistance}},
 	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
 
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": dd}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
 	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
 ]
 
@@ -50,7 +50,7 @@ def doActionStop():
 	pass
 
 def doAction(action, param):
-	print("Do action " + action + " with param " + str(param))
+	print("Do action " + action + " with param " + str(param) + "\n")
 	if action == "wait":
 		doActionWait()
 	elif action == "forward":
@@ -62,20 +62,13 @@ def doAction(action, param):
 
 def shouldChangeColor(param):
 	if detectColor(100) == param:
+		print("Detect color " + param + "\n")
 		return True
 	else:
 		return False
 
 def shouldChangeObstacle(param):
 	if detectObstacle(100, param):
-		return True
-	else:
-		return False
-
-def shouldStop(param):
-	print("Check should stop color " + param + "\n")
-	if detectColor(100) == param:
-		print("Stop when encounter color " + param + "\n")
 		return True
 	else:
 		return False
@@ -97,8 +90,6 @@ def shouldChangeState(cond, param):
 		return shouldChangeObstacle(param)
 	elif cond == "count":
 		return shouldChangeRotate(param)
-	elif cond == "stop":
-		return shouldStop(param)
 	return False
 
 def run():
