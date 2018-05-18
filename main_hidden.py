@@ -92,24 +92,25 @@ def run():
 		wait(100)
 	while True:
 		resetCompass()
-		if shouldChangeObstacle(20):
+		if shouldChangeObstacle(23):
 			shouldStop = shouldStopWhenFoundColorOrRotate()
 			if shouldStop:
+				stop()
 				break
 			shuffle(ran)
 			if ran[0]:
 				direction.turnLeft()
-				if shouldChangeObstacle(20):
+				if shouldChangeObstacle(23):
 					direction.turnRight()
 					direction.turnRight()
 			else:
 				direction.turnRight()
-				if shouldChangeObstacle(20):
+				if shouldChangeObstacle(23):
 					direction.turnLeft()
 					direction.turnLeft()
 		else:
 			doActionGo()
-		wait(10)
+		wait(50)
 	stop()
 
 if __name__ == "__main__":

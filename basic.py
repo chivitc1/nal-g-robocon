@@ -32,7 +32,12 @@ def goBack():
 def getColor():
 	url = host + "/remote/color"
 	res = requests.get(url)
-	return json.loads(res.text)
+	try:
+		# print(res.text)
+		return json.loads(res.text)
+	except ValueError:
+		print("Get color error\n")
+		return {"red": 0, "green": 0, "blue": 0}
 
 def getCompass():
 	url = host + "/remote/compass"

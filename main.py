@@ -2,8 +2,9 @@ from detect import *
 from utils import *
 from collections import deque
 
-maxStopDistance = 20
+maxStopDistance = 21
 
+# open maps
 states = [
 	{"action": {"type": "wait", "param": 0}, "stop": {"type": "color", "param": "green"}},
 	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
@@ -20,6 +21,33 @@ states = [
 
 	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
 	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
+]
+
+# hiden maps
+states = [
+	{"action": {"type": "wait", "param": 0}, "stop": {"type": "color", "param": "green"}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
+
+	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 2}},
+
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 18}},
+
+	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 2}},
+	
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
+
+	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 2}},
+	
+	{"action": {"type": "forward", "param": 180}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "forward", "param": 180}, "stop": {"type": "distance", "param": maxStopDistance}},
+	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
+
 ]
 
 def doActionWait():
@@ -106,7 +134,7 @@ def test(degree, length):
 
 if __name__ == "__main__":
 	command = sys.argv
-	configureSpeed(25)
+	configureSpeed(30)
 	run()
 
 	# test(270, 20)
