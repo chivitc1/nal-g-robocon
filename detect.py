@@ -53,10 +53,10 @@ def detectColor(time):
 """Rotate in single step"""
 def stepRotate(isLeft):
 	if isLeft:
-		print("Step rotate: left\n")
+		# print("Step rotate: left\n")
 		turnLeft()
 	else:
-		print("Step rotate: right\n")
+		# print("Step rotate: right\n")
 		turnRight()
 
 def rotate(isLeft):
@@ -99,7 +99,7 @@ def detectDegree(ms):
 		totalDegree += getCompass()["degree"]
 		wait(30)
 	currentDegree = totalDegree / count
-	print("Current degree " + str(currentDegree))
+	# print("Current degree " + str(currentDegree) + "\n")
 	return currentDegree
 
 
@@ -122,17 +122,17 @@ def rotateNearest(degree):
 		else:
 			isLeft = False
 		leftDelta = math.fabs(degree - currentDegree)
-		print("leftDelta " + str(leftDelta))
+		# print("leftDelta " + str(leftDelta) + "\n")
 		if leftDelta > 200:
 			isLeft = not isLeft
-		print("at " + str(currentDegree) + "should go left(" + str(isLeft) + ") to reach " + str(degree))
+		# print("at " + str(currentDegree) + "should go left(" + str(isLeft) + ") to reach " + str(degree) + "\n")
 
 		if leftDelta > delta:
 			stepRotate(isLeft)
 			if currentDegree - lastDegree < 5:
 				hangCount = hangCount + 1
 			if hangCount > 10:
-				print("Is hang\n")
+				# print("Is hang\n")
 				wait(500)
 				# resetCompass()
 				hangCount = 0

@@ -95,14 +95,15 @@ def shouldChangeState(cond, param):
 def run():
 	stateQueue = deque(states)
 	state = stateQueue.popleft()
+	shouldChange = True
 	while len(stateQueue) > 0:
+		if shouldChange:
+			stop()
+			state = stateQueue.popleft()
 		resetCompass()
 		doAction(state["action"]["type"], state["action"]["param"])
 		wait(10)
 		shouldChange = shouldChangeState(state["stop"]["type"], state["stop"]["param"])
-		if shouldChange:
-			stop()
-			state = stateQueue.popleft()
 	stop()
 
 def test(degree, length):
