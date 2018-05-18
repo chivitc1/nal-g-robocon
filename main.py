@@ -2,27 +2,13 @@ from detect import *
 from utils import *
 from collections import deque
 
-states = [
-	{"action": {"type": "wait", "param": 0}, "stop": {"type": "color", "param": "green"}},
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
-	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
-
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
-	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": 20}},
-	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": 20}},
-	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": 20}},
-	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
-]
-
-maxStopDistance = 21
+maxStopDistance = 20
 
 states = [
 	{"action": {"type": "wait", "param": 0}, "stop": {"type": "color", "param": "green"}},
 	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
 	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": maxStopDistance}},
-	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
+	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 2}},
 	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
 
 	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": maxStopDistance}},
@@ -30,7 +16,7 @@ states = [
 	{"action": {"type": "forward", "param": 0}, "stop": {"type": "distance", "param": maxStopDistance}},
 
 	{"action": {"type": "forward", "param": 90}, "stop": {"type": "distance", "param": maxStopDistance}},
-	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 3}},
+	{"action": {"type": "rotate", "param": "right"}, "stop": {"type": "count", "param": 2}},
 
 	{"action": {"type": "forward", "param": 270}, "stop": {"type": "distance", "param": maxStopDistance}},
 	{"action": {"type": "stop", "param": 0}, "stop": {"type": "color", "param": "blue"}},
@@ -44,7 +30,10 @@ def doActionForward(degree):
 	forward()
 
 def doActionRotate(direction):
-	rotate(direction)
+	if direction == "left":
+		rotate(True)
+	else:
+		rotate(False)
 
 def doActionStop():
 	pass
@@ -95,15 +84,15 @@ def shouldChangeState(cond, param):
 def run():
 	stateQueue = deque(states)
 	state = stateQueue.popleft()
-	shouldChange = True
+	# shouldChange = True
 	while len(stateQueue) > 0:
-		if shouldChange:
-			stop()
-			state = stateQueue.popleft()
 		resetCompass()
 		doAction(state["action"]["type"], state["action"]["param"])
 		wait(10)
 		shouldChange = shouldChangeState(state["stop"]["type"], state["stop"]["param"])
+		if shouldChange:
+			stop()
+			state = stateQueue.popleft()
 	stop()
 
 def test(degree, length):
@@ -117,7 +106,7 @@ def test(degree, length):
 
 if __name__ == "__main__":
 	command = sys.argv
-	configureSpeed(30)
+	configureSpeed(25)
 	run()
 
 	# test(270, 20)

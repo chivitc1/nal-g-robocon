@@ -111,3 +111,45 @@ def testReturn2WhenRotate350():
 	countDetector.feedCurrent(270)
 	countDetector.feedCurrent(350)
 	assert countDetector.getRotatedCount() == 2
+
+def testReturn1When1stRotateRight():
+	countDetector = RotateCountDetector()
+	countDetector.feedCurrent(360)
+	countDetector.feedCurrent(330)
+	countDetector.feedCurrent(270)
+	countDetector.feedCurrent(260)
+	countDetector.feedCurrent(200)
+	countDetector.feedCurrent(180)
+	countDetector.feedCurrent(170)
+	countDetector.feedCurrent(90)
+	countDetector.feedCurrent(80)
+	countDetector.feedCurrent(10)
+	countDetector.feedCurrent(0)
+	assert countDetector.getRotatedCount() == 1
+
+def testReturn2When2ndRotateRight():
+	countDetector = RotateCountDetector()
+	countDetector.feedCurrent(360)
+	countDetector.feedCurrent(330)
+	countDetector.feedCurrent(270)
+	countDetector.feedCurrent(260)
+	countDetector.feedCurrent(200)
+	countDetector.feedCurrent(180)
+	countDetector.feedCurrent(170)
+	countDetector.feedCurrent(90)
+	countDetector.feedCurrent(80)
+	countDetector.feedCurrent(10)
+	countDetector.feedCurrent(0)
+
+	countDetector.feedCurrent(360)
+	countDetector.feedCurrent(330)
+	countDetector.feedCurrent(270)
+	countDetector.feedCurrent(260)
+	countDetector.feedCurrent(200)
+	countDetector.feedCurrent(180)
+	countDetector.feedCurrent(170)
+	countDetector.feedCurrent(90)
+	countDetector.feedCurrent(80)
+	countDetector.feedCurrent(10)
+	countDetector.feedCurrent(0)
+	assert countDetector.getRotatedCount() == 2

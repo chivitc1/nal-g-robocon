@@ -38,14 +38,14 @@ class RotateCountDetector(object):
 	def feedCurrent(self, currentDegree):
 		delta1 = calSmallestDegree(currentDegree, 0)
 		delta2 = calSmallestDegree(currentDegree, 360)
-		if delta1 <= 50 or delta2 <= 50:
+		if delta1 <= 30 or delta2 <= 30:
 			if self.pos != "first":
 				self.count = self.count + 1
 				self.pos = "first"
 
 		delta = calSmallestDegree(currentDegree, 180)
-		print("delta" + str(delta))
-		if delta <= 50:
+		# print("delta" + str(delta))
+		if delta <= 30:
 			if self.pos != "second":
 				self.pos = "second"
 

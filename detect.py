@@ -84,10 +84,16 @@ def calCurrentDegree():
 	
 	# return currentDegree
 	
-	if currentDegree > 250:
-		currentDegree = currentDegree + 20
+	if currentDegree < 50:
+		currentDegree = currentDegree - 10
+	elif currentDegree > 250:
+		currentDegree = currentDegree + 10
 	elif currentDegree > 160:
 		currentDegree = currentDegree + 10
+
+	currentDegree = currentDegree + 90
+	if currentDegree >= 360:
+		currentDegree = currentDegree - 360
 
 	return currentDegree
 
