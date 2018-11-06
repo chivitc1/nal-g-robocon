@@ -10,6 +10,7 @@ import cv2
 def process_img():
     # reading in an image
     image = mpimg.imread('img/lan1.jpg')
+
     # image = mpimg.imread('img/img_a2.jpg')
 
     height = image.shape[0]
@@ -44,6 +45,19 @@ def process_img():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+
+    for line in lines:
+        for x1, y1, x2, y2 in line:
+            # if (y1==y2 or abs(int(x1)-int(x2))/abs(int(y1)-int(y2)) < 0.2):
+                if (int(x1) > 400 or int(x2) > 400):
+                    if (int(y1) > 300 or int(y2) > 300):
+                        print("lech trai")
+                    else:
+                        if (int(y1) < 200 or int(y2) < 200):
+                            print("lech phai")
+                        else:
+                            print("đang đung ")
+                    return
 
 def region_of_interest(img, vertices):
     # Define a blank matrix that matches the image height/width.
