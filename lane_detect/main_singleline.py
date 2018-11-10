@@ -9,7 +9,7 @@ import cv2
 
 def process_img():
     # reading in an image
-    image = mpimg.imread('img/img4.jpg')
+    image = mpimg.imread('img/lan1.jpg')
     # image = mpimg.imread('img/img_a2.jpg')
 
     height = image.shape[0]
@@ -40,9 +40,9 @@ def process_img():
     # print(lines)
     line_image = draw_lines(image, lines)
 
-    plt.figure()
-    plt.imshow(line_image)
-    plt.show()
+    cv2.imshow('Line img', line_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 def region_of_interest(img, vertices):

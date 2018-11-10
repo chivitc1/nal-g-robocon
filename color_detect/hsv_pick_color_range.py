@@ -46,7 +46,7 @@ def pick_color(event,x,y,flags,param):
 def main():
     global image_hsv, pixel # so we can use it in mouse callback
 
-    image_src = cv2.imread("images/2.jpg")
+    image_src = cv2.imread("../images/1.jpg")
     cv2.imshow("bgr",image_src)
 
     ## NEW ##
