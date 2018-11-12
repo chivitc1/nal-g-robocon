@@ -48,15 +48,15 @@ def process_img():
 
     for line in lines:
         for x1, y1, x2, y2 in line:
-            # if (y1==y2 or abs(int(x1)-int(x2))/abs(int(y1)-int(y2)) < 0.2):
+             if (y1==y2 or abs(int(x1)-int(x2))/abs(int(y1)-int(y2)) < 0.2):
                 if (int(x1) > 400 or int(x2) > 400):
                     if (int(y1) > 300 or int(y2) > 300):
-                        print("lech trai")
+                        print("trai")
                     else:
-                        if (int(y1) < 200 or int(y2) < 200):
-                            print("lech phai")
+                        if (int(y1) < 150 or int(y2) < 150):
+                            print("phai")
                         else:
-                            print("đang đung ")
+                            print("đung ")
                     return
 
 def region_of_interest(img, vertices):

@@ -1,5 +1,6 @@
 import requests
 import json
+import urllib
 
 host = "http://10.22.40.101:8081"
 host = "http://10.22.20.59:8080"
@@ -68,3 +69,8 @@ def changeSpeedLeft(value):
 	payload = {'speed': value}
 	url = host + "/remote/change_spd_left"
 	requests.post(url, data = json.dumps(payload), headers = headers)
+
+def get_image():
+	url = host + "/image_feed"
+	stream = urllib.request.urlopen(url)
+	return stream
