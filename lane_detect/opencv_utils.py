@@ -44,6 +44,7 @@ def to_factored_line(p1, p2):
     C = (p1[0]*p2[1] - p2[0]*p1[1])
     return A, B, -C
 
+
 def intersection(L1, L2):
     D  = L1[0] * L2[1] - L1[1] * L2[0]
     Dx = L1[2] * L2[1] - L1[1] * L2[2]
@@ -51,7 +52,7 @@ def intersection(L1, L2):
     if D != 0:
         x = Dx / D
         y = Dy / D
-        return x,y
+        return x, y
     else:
         return False
 
