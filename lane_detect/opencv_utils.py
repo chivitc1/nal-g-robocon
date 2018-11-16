@@ -85,6 +85,121 @@ def round_angle_tests():
     print(round_angle(round_degree_unit, -20))
     print(round_angle(round_degree_unit, -21))
 
+
+def slope(dx, dy):
+    return (dy / dx) if dx else None
+
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __str__(self):
+        return '({}, {})'.format(self.x, self.y)
+
+    def halfway(self, target):
+        midx = (self.x + target.x) / 2
+        midy = (self.y + target.y) / 2
+        return Point(midx, midy)
+
+    def distance(self, target):
+        dx = target.x - self.x
+        dy = target.y - self.y
+        return (dx * dx + dy * dy) ** 0.5
+
+    def reflect_x(self):
+        return Point(-self.x, self.y)
+
+    def reflect_y(self):
+        return Point(self.x, -self.y)
+
+    def reflect_x_y(self):
+        return Point(-self.x, -self.y)
+
+    def slope_from_origin(self):
+        return slope(self.x, self.y)
+
+    def slope(self, target):
+        return slope(target.x - self.x, target.y - self.y)
+
+    def y_int(self, target):       # <= here's the magic
+        return self.y - self.slope(target)*self.x
+
+    def print_line_equation(self, target):
+        slope = self.slope(target)
+
+        y_int = self.y_int(target)
+        if y_int < 0:
+            y_int = -y_int
+            sign = '-'
+        else:
+            sign = '+'
+
+        return 'y = {}x {} {}'.format(slope, sign, y_int)
+
+
+class LineXY:
+    def __init__(self, x1, y1, x2, y2):
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.pt1 = Point(x1, y1)
+        self.pt2 = Point(x2, y2)
+
+    def equation(self):
+        """ a*x + b*y +c = 0
+        return [a b c]
+        """
+        a = (self.pt1.y - self.pt2.y)
+        b = (self.pt2.x - self.pt1.x)
+        c = (self.pt1.x * self.pt2.y - self.pt2.x * self.pt1.y)
+        return a, b, -c
+
+    def intersect(self, other):
+        """
+        other can be tupe (A, B, C) of equation or LineXY object
+        :param other:
+        :return: cross Point
+        """
+        L1 = self.equation()
+
+        L2 = other
+        if type(other) is not tuple:
+            L2 = other.equation()
+        d = L1[0] * L2[1] - L1[1] * L2[0]
+        dx = L1[2] * L2[1] - L1[1] * L2[2]
+        dy = L1[0] * L2[2] - L1[2] * L2[0]
+        if d != 0:
+            x = dx / d
+            y = dy / d
+            return Point(x, y)
+        else:
+            return False
+
+
+def test_point_and_line_class():
+    pt1 = Point(303, 302)
+    pt2 = Point(504, 312)
+
+    print("Degree: {}".format((pt1.slope(pt2)) * 180 / np.pi))
+    line1 = LineXY(pt1.x, pt1.y, pt2.x, pt2.y)
+    print(pt1.print_line_equation(pt2))
+    print(line1.equation())
+
+    line2 = LineXY(0, 0, 640, 0)
+    cross = line1.intersect(line2)
+
+    img = cv2.imread('../images/1.jpg')
+    cv2.line(img, (132, 303), (438, 308), color=(0,255,0))
+    cv2.imshow('test', img)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    print(cross)
+
+
 if __name__ == '__main__':
     # p1 = np.array([0, 0])
     # p2 = np.array([10, 10])
@@ -101,4 +216,6 @@ if __name__ == '__main__':
     # cross_point = intersection( line1, line2)
     # print("Cross point {}".format(cross_point))
 
-    round_angle_tests()
+    # round_angle_tests()
+
+    test_point_and_line_class()
